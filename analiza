@@ -1,0 +1,60 @@
+"""alina_korochkin 321108391_anna_pupko 321204182) """
+import sympy as sp
+from sympy import lambdify
+
+def newton_Raphson(func, start, end, epsilon):
+    print('newton Raphson')
+
+    iters = 0
+    gu = ((end + start) / 2)
+    x= gu
+    y = func(gu)
+    diff = epsilon + 1
+
+    while abs(diff) >= epsilon and y != 0:
+        x = gu
+        y = func(gu)
+        gu = gu - (y / der(gu))
+        diff = x - gu
+        iters += 1
+        step = 1
+        flag = True
+
+    print("after " + str(iters) + " iterations")
+    print("The value of the root is : " + str(gu))
+
+
+
+
+
+def secant(func,start, end, eps):
+    print('\nSECANT METHOD\n')
+    step = 1
+    flag = True
+    while flag:
+        if func(start) == func(end):
+            break
+
+        x2 = start - (end - start) * func(start) / (func(end) - func(start))
+        print('Iteration %d, x2 = %0.6f and f(x2) = %0.6f' % (step, x2, func(x2)))
+        start = end
+        end = x2
+        step = step + 1
+
+        if step > 30:
+            print('Not Convergent!')
+            break
+
+        condition = abs(func(x2)) > eps
+    print('\n Required root is: %0.6f' % x2)
+
+x = sp.symbols('x')
+func = x ** 3 - x - 1
+der = func.diff(x)
+func = lambdify(x, func)
+der = lambdify(x, der)
+
+
+newton_Raphson(func, 1, 2,  0.0001)
+
+secant(func,-1, 2, 0.0001)
